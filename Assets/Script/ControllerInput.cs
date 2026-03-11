@@ -6,7 +6,8 @@ public class ControllerInput : MonoBehaviour
 {
     public float speed = 5;
     public Vector2 movement;
-    public AudioSource SFX; 
+    public AudioSource SFX;
+    public GameObject thingToSpawn;
     void Start()
     {
         
@@ -20,7 +21,7 @@ public class ControllerInput : MonoBehaviour
         transform.position += (Vector3)movement * speed * Time.deltaTime; 
 
         //use with mouse position
-        //transform.position.movement; 
+        //transform.position=movement; 
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -41,5 +42,14 @@ public class ControllerInput : MonoBehaviour
     {
         //the same as Mouse.current.position.ReadValue()
         movement = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()); 
+    }
+
+    public void spawn(InputAction.CallbackContext context)
+    {
+        Debug.Log("spawn");
+        if (context.performed == true)
+        {
+            Instantiate(thingToSpawn, transform.position, transform.rotation);
+        }
     }
 }
