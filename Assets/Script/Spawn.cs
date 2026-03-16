@@ -5,11 +5,12 @@ using UnityEngine.UIElements;
 public class Spawn : MonoBehaviour
 {
     public GameObject thingToSpawn;
-    public float spawnTime = 1/10;
-    float t;
 
     void Update()
     {
+        Vector2 mousPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        transform.position = mousPos;
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Debug.Log("start spawning"); 
