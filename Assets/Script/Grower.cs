@@ -62,10 +62,23 @@ public class Grower : MonoBehaviour
             tree.localScale = Vector2.one*t;
             yield return null; 
         }
+
+        Debug.Log("Finish growing the tree"); 
     }
 
     IEnumerator GrowApple()
     {
+        Debug.Log("Starting to grow the apple");
+        float t = 0; 
 
+        apple.localScale = Vector2.zero;
+
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            apple.localScale = Vector2.one * t;
+            yield return null;
+        }
+        Debug.Log("Finished growing the apple"); 
     }
 }
