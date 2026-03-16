@@ -13,14 +13,14 @@ public class Grower : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-      
+        tree.localScale = Vector2.zero;
+        apple.localScale = Vector2.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        tree.localScale = Vector2.zero; 
-        apple.localScale = Vector2.zero;
+        
     }
 
     public void StartTreeGrowing()
