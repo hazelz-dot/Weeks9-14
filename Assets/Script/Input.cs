@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class Input : MonoBehaviour
 {
-    public float speed = 5;
-    public Vector2 movement;
-    public Vector2 square; 
+    //public float speed = 5;
+    //public Vector2 movement;
+    //public Vector2 square; 
     public Vector2 destination;
     public float t = 0;
     public LineRenderer lr;
@@ -28,7 +28,7 @@ public class Input : MonoBehaviour
 
         if (t<1)
         {
-            t += Time.deltaTime/5f;
+            t += Time.deltaTime/2f;
             transform.position = Vector2.Lerp(transform.position, destination, t);
             lr.SetPosition(1, transform.position);
         }
