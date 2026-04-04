@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class HoppingFrog : MonoBehaviour
 {
+    public GameObject Froggie; 
+
     Coroutine holdCoroutine;
     Coroutine jumpCoroutine; 
 
