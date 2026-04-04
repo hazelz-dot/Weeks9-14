@@ -13,12 +13,16 @@ public class HoppingFrog : MonoBehaviour
     //public float hopT; 
 
     public AnimationCurve distance;
-    public AnimationCurve hop; 
+    public AnimationCurve hop;
+
+    public Animator animator;
+    public bool IsJumping = false; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        IsJumping = false; 
     }
 
     // Update is called once per frame
@@ -38,11 +42,11 @@ public class HoppingFrog : MonoBehaviour
         //start counting coroutine
         if (context.started)
         {
-            jumpCoroutine = StartCoroutine(Holding());
+            holdCoroutine = StartCoroutine(Holding());
         }
 
         //stop counting coroutine and jump 
-        if (context.canceled)
+        if (context.canceled && !IsJumping)
         {
             if (holdCoroutine != null)
             {
@@ -50,6 +54,7 @@ public class HoppingFrog : MonoBehaviour
             }
             
             StartCoroutine(Jumping());
+
             if (jumpCoroutine != null)
             {
                 StopCoroutine(jumpCoroutine);
@@ -74,7 +79,7 @@ public class HoppingFrog : MonoBehaviour
         {
             yield return null;
             t += Time.deltaTime;
-            hopT += Time.deltaTime * t; 
+            //hopT += Time.deltaTime * t; 
             Debug.Log("counting");
         }
         
@@ -84,19 +89,32 @@ public class HoppingFrog : MonoBehaviour
     IEnumerator Jumping()
     {
         Debug.Log("Froggie jump!");
+
+        IsJumping = true;
+
+        animator.SetBool("IsJumping", true);
+
         yield return null;
 
         Vector2 newPosition = transform.position;
 
+
         while (t > 0)
         {
             newPosition.x += speed * distance.Evaluate(t);
-            newPosition.y += speed * hop.Evaluate(t/); 
+            //newPosition.y += speed * hop.Evaluate(t); 
             transform.position = newPosition;
             t -= Time.deltaTime;
+
             yield return null;
         }
-        
+
+        t = 0;  
+
+        animator.SetBool("IsJumping", false);
+
+        IsJumping = false;
+
     }
 }
 
