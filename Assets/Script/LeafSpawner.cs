@@ -8,6 +8,8 @@ public class LeafSpawner : MonoBehaviour
     public float minDistance = 2f;
     public float maxDistance = 5f;
 
+    public pointSystem pointSystem;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +36,11 @@ public class LeafSpawner : MonoBehaviour
             Debug.Log("froggie on leaf"); 
 
             hasSpawned = true;
+
+            if(pointSystem != null)
+            {
+                pointSystem.AddPoint(); 
+            }
 
             float distance = Random.Range(minDistance, maxDistance);
 
