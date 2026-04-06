@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,19 +21,45 @@ public class HoppingFrog : MonoBehaviour
     public Animator animator;
     public bool IsJumping = false;
 
+    bool isOnLeaf = true;
+
+    Vector2 startPosition;
+
+    float resetTimer;
+
+    public pointSystem pointSystem;
+
+    public bool gameOver = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
-        IsJumping = false; 
+        IsJumping = false;
+
+        isOnLeaf = true;
+
+        startPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //game over if froggie does not land on leaf
+        if (!isOnLeaf && !IsJumping && t ==0)
+        {
+            resetTimer += Time.deltaTime;
 
-        //count when the jump starts
+            if (resetTimer >= 0.2f)
+            {
+                GameOver();
+            }
+        }
+        else
+        {
+            resetTimer = 0f;
+            gameOver = false; 
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -54,7 +81,7 @@ public class HoppingFrog : MonoBehaviour
             {
                 StopCoroutine(holdCoroutine);
             }
-            
+
             StartCoroutine(Jumping());
 
             if (jumpCoroutine != null)
@@ -117,6 +144,42 @@ public class HoppingFrog : MonoBehaviour
 
         IsJumping = false;
 
+    }
+
+    //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnCollisionEnter2D.html
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<LeafSpawner>() != null)
+        {
+            isOnLeaf = true; 
+        }
+    }
+
+    //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnCollisionExit2D.html
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<LeafSpawner>() != null)
+        {
+            isOnLeaf = false;
+        }
+    }
+
+    public void GameOver()
+    {
+        //t = 0;
+        IsJumping = false;
+        isOnLeaf = true;
+        gameOver = true;
+        //transform.rotation = Quaternion.identity;
+        //froggie go back to starting point
+        transform.position = startPosition;
+
+        if (pointSystem != null)
+        {
+            pointSystem.ResetScore();
+        }
+            
+        Debug.Log("game over!"); 
     }
 }
 

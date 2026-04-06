@@ -4,11 +4,12 @@ public class LeafSpawner : MonoBehaviour
 {
 
     public GameObject leaf;
-    bool hasSpawned = false;
+    public bool hasSpawned = false;
     public float minDistance = 2f;
     public float maxDistance = 5f;
 
     public pointSystem pointSystem;
+    public HoppingFrog froggie;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,7 +20,19 @@ public class LeafSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (froggie != null && froggie.gameOver == true)
+        {
+            //hasSpawned = false; 
 
+            if (gameObject.name != "FirstLeaf")
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+
+        }
     }
 
     //detect collision 
@@ -35,7 +48,7 @@ public class LeafSpawner : MonoBehaviour
         {
             Debug.Log("froggie on leaf"); 
 
-            hasSpawned = true;
+            //hasSpawned = true;
 
             if(pointSystem != null)
             {

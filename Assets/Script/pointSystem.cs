@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class pointSystem : MonoBehaviour
 {
-    public int score = 0; 
+    public int score = 0;
+
+    //https://docs.unity3d.com/Packages/com.unity.textmeshpro@1.1/api/TMPro.TextMeshProUGUI.html
     public TMPro.TextMeshProUGUI Score;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,8 +26,15 @@ public class pointSystem : MonoBehaviour
         UpdateScore(); 
     }
 
-    void UpdateScore()
+    public void UpdateScore()
     {
         Score.text = "Score: " + score; 
     }
+
+    public void ResetScore()
+    {
+        score = 0;
+        UpdateScore();
+    }
+
 }
