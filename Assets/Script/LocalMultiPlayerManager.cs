@@ -1,11 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class LocalMultiPlayerManager : MonoBehaviour
 {
     public List<Sprite> playerSprites;
-    public List<PlayerInput> players; 
+    public List<PlayerInput> players;
+
+    public int hitCount; 
+
+    public localMultiPlayerController controller;
+
+    public AudioSource SFX;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,9 +27,12 @@ public class LocalMultiPlayerManager : MonoBehaviour
         
     }
 
+
     public void OnPlayerJoined(PlayerInput player)
     {
         players.Add(player);
+
+        SFX.Play();
 
         SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
         sr.sprite = playerSprites[player.playerIndex];
@@ -38,8 +49,17 @@ public class LocalMultiPlayerManager : MonoBehaviour
 
             if (Vector2.Distance(attackingPlayer.transform.position, players[i].transform.position)<0.5f)
             {
-                Debug.Log("Player" + attackingPlayer.playerIndex + " attacked player " + players[i].playerIndex); 
+                Debug.Log("Player" + attackingPlayer.playerIndex + " attacked player " + players[i].playerIndex);
+                hitCount += 1; 
+
+                if(hitCount == 5)
+                {
+                    players.Remove(players[i]);
+                    Destroy(players[i].gameObject); 
+                }
             } 
         }
     }
+
+   
 }
